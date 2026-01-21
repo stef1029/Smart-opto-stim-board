@@ -100,9 +100,8 @@ void loop() {
         unsigned long elapsedTime = currentMillis - previousMillis;
 
         if (elapsedTime >= stimInterval && currentDurationIndex < numDurations) {
-            previousMillis = currentMillis;
             pulsePreviousMillis = currentMillis;
-            
+
             if (pulseOffTime == 0) {
                 digitalWrite(LASER_PIN, HIGH);
                 digitalWrite(LED_PIN, HIGH);
@@ -110,11 +109,11 @@ void loop() {
                 digitalWrite(LASER_PIN, LOW);
                 digitalWrite(LED_PIN, LOW);
                 currentDurationIndex++;
-                
+
                 if (currentDurationIndex >= numDurations) {
                     currentDurationIndex = 0;
                     currentCycle++;
-                    
+
                     if (currentCycle >= numCycles) {
                         sequenceRunning = false;
                         Serial.println("e");
@@ -125,10 +124,10 @@ void loop() {
                 bool pulseState = true;
                 digitalWrite(LASER_PIN, HIGH);
                 digitalWrite(LED_PIN, HIGH);
-                
+
                 while (currentMillis < endTime) {
                     currentMillis = millis();
-                    
+
                     if (pulseState && (currentMillis - pulsePreviousMillis >= pulseOnTime)) {
                         digitalWrite(LASER_PIN, LOW);
                         digitalWrite(LED_PIN, LOW);
@@ -142,21 +141,23 @@ void loop() {
                         pulsePreviousMillis = currentMillis;
                     }
                 }
-                
+
                 digitalWrite(LASER_PIN, LOW);
                 digitalWrite(LED_PIN, LOW);
                 currentDurationIndex++;
-                
+
                 if (currentDurationIndex >= numDurations) {
                     currentDurationIndex = 0;
                     currentCycle++;
-                    
+
                     if (currentCycle >= numCycles) {
                         sequenceRunning = false;
                         Serial.println("e");
                     }
                 }
             }
+
+            previousMillis = millis();
         }
     }
 }
